@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" Content="text/html;charset=utf-8"/> 
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js" ></script>
+	<script language="javascript" type="text/javascript" src="dds_slideshow.js"></script>
+	<link href="dds_slideshow.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="dds_slideshow_vertical.css" media="screen" rel="stylesheet" type="text/css" />
+	<style>
+		span{
+			display: inline-block;
+			padding: 20px;
+		}
+		.flickr_background{
+			  -webkit-background-size: contain;
+			  -moz-background-size: contain;
+			  -o-background-size: contain;
+			  background-size: contain;
+		}
+		#slideshow4{
+			background-color: #000000;
+		}
+	</style>
+	<script type="text/javascript">
+		/* setup albums to use in the flickr API and sort randomly */
+		DDS_slideshow.prototype.flickrAlbums = ["paris", "salzburg", "zermatt", "murren", "neuschwanstein", "iceland","ireland","loire valley", "brugge"];
+		DDS_slideshow.prototype.flickrAlbums.sort(function() {return 0.5-Math.random();});
+
+		/* function to call upon init of the slideshow object */
+		DDS_slideshow.prototype.loadFlickr = function(){
+			var elThis = this;
+		    var flickrAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
+		    var data = $.getJSON(flickrAPI, {
+		            id: "89642142@N04",
+		            tags: this.flickrAlbums.pop(),
+		            format: "json",
+		            per_page: "20"
+		        }, function(data){ 
+
+		        data.items.sort(function() {return 0.5-Math.random();});
+		        for (i=0; i < elThis.slides.length; i++){
+		            $(elThis.slides[i])
+		            	.addClass("flickr_background")
+		            	.css("background","url('"+data.items[i].media.m.replace("_m.jpg", "_z.jpg")+"') no-repeat center center" );
+		        }
+		    });
+		};
+	</script>
+
+</head>
+<body>
+	<div id="images"></div>
+	<span>
+		<div id="slideshow1">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+		<script type="text/javascript">
+			var slideShow1 = new DDS_slideshow("slideshow1",{
+				delay: 2000,				//delay between slides
+				transition: "swipe",		//transition to use "swipe", "swipe2", "fade", "fade2"
+				styles: "dds_slideshow",	//the prefix of the styles to use
+				transitionSpeed: 500,		//the speed of the transition
+				isPlaying: true,			//whether to autostart
+				navigationArrows: "auto",	//whether to display the nav arrows (on, off, auto)
+				verticalArrows: false,		//whether the arrows should be vertical (used for repositioning)
+				width: 600,					//the width and height of the box in pixels (or use CSS)
+				height: 400,				//if you change the size after init, call the resize() function 
+				moreInit: function(){this.loadFlickr();}	//can pass an anonymous function to moreInit to run it upon init
+			});
+		    $(document).ready(function(){slideShow1.init()});
+		</script>
+	</span>
+
+
+	<span>
+		<div id="slideshow2">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+		<script type="text/javascript">
+			var slideShow2 = new DDS_slideshow("slideshow2",{
+				transition: "swipe2",
+				styles: "dds_slideshow_vertical",
+				verticalArrows: true,
+				width: 600,	
+				height: 400,
+				moreInit: function(){this.loadFlickr();}
+			});
+		    $(document).ready(function(){slideShow2.init()});
+		</script>
+	</span>
+
+	<span>
+		<div id="slideshow3">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+		<script type="text/javascript">
+			var slideShow3 = new DDS_slideshow("slideshow3",{
+				speed: 1500,
+				transitionSpeed: 1000,
+				transition: "fade",
+				styles: "dds_slideshow",
+				width: 600,
+				height: 400,
+				moreInit: function(){this.loadFlickr();}
+			});
+		    $(document).ready(function(){slideShow3.init()});
+		</script>
+	</span>
+
+	<span>
+		<div id="slideshow4">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+		<script type="text/javascript">
+			var slideShow4 = new DDS_slideshow("slideshow4",{
+				speed: 1500,
+				transitionSpeed: 1000,
+				transition: "fade2",
+				styles: "dds_slideshow",
+				width: 600,
+				height: 400,
+				moreInit: function(){this.loadFlickr();}
+			});
+		    $(document).ready(function(){slideShow4.init()});
+		</script>
+	</span>
+</body>
+</html>
